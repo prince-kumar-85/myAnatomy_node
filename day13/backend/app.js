@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Book = require('./models/Books'); // Import model
 
 const app = express();
+const port = 5001
 
 // Middleware
 app.use(express.json());
@@ -28,6 +29,20 @@ app.post('/books', async (req, res) => {
     }
 });
 
+app.put("/books/:id",async(req, res)=>{
+    const {title,author,year}= req.body
+    const updatedBook=await Book.findByIdAndUpdate(req.params.id,{title,author,year},{new:true})
+    res.json(updatedBook)
+})
+
+
+
+app.get('/books/:id',(req,res)=>{
+    Book.findById(req.params.id)
+    .then(d=>res.send(d))
+    console.log("The book id is", req.params.id)
+})
+
 // Get all books (GET)
 app.get('/books', async (req, res) => {
     try {
@@ -39,6 +54,6 @@ app.get('/books', async (req, res) => {
 });
 
 // Start server
-app.listen(5001, () => {
-    console.log("Server running on http://localhost:5001");
+app.listen(port, () => {
+    console.log(`Server running on ${port}`);
 });
