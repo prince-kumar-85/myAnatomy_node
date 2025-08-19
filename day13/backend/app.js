@@ -18,6 +18,8 @@ app.get("/", (req, res) => {
     res.send("I love book");
 });
 
+
+
 // Create a new book (POST)
 app.post('/books', async (req, res) => {
     try {
@@ -29,29 +31,66 @@ app.post('/books', async (req, res) => {
     }
 });
 
-app.put("/books/:id",async(req, res)=>{
-    const {title,author,year}= req.body
-    const updatedBook=await Book.findByIdAndUpdate(req.params.id,{title,author,year},{new:true})
-    res.json(updatedBook)
-})
+app.put("/books/:id", async (req, res) => {
+    const { title, author, year } = req.body;
+    try {
+        const updatedBook = await Book.findByIdAndUpdate(
+            req.params.id,
+            { title, author, year },
+            { new: true }
+        );
+        if (!updatedBook) {
+            return res.status(404).json({ message: "updation id is not found" });
+        }
+        res.json(updatedBook);
+    } catch (err) {
+        res.status(500).json({ message: "Failed to update Book" });
+    }
+});
 
 
 
-app.get('/books/:id',(req,res)=>{
-    Book.findById(req.params.id)
-    .then(d=>res.send(d))
-    console.log("The book id is", req.params.id)
-})
+
+app.get('/books/:id', async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id); 
+        if (!book) {
+            return res.status(404).json({ message: "id is not found" });
+        }
+        res.send(book);
+        console.log("The book id is", req.params.id);
+    } catch (err) {
+        res.status(500).json({ message: 'id is not found' });
+    }
+});
 
 // Get all books (GET)
 app.get('/books', async (req, res) => {
     try {
         const books = await Book.find();
+        if(!books){
+            res.json({message:"book is empty"})
+        }else{
         res.json(books);
+        }
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
+
+app.delete('/books/:id',async(req,resp)=>{
+    try{
+        const deletebook=await Book.findByIdAndDelete(req.params.id);
+        if(!deletebook){
+            resp.status(404).json({message:'book is not found'})
+        }
+        
+        resp.json({message:"Book deleted"})
+    }catch(err){
+        resp.status(500).json({message:"Error"})
+    }
+    
+})
 
 // Start server
 app.listen(port, () => {
