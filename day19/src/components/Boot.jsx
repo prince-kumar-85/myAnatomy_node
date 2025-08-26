@@ -5,8 +5,8 @@ function Boot() {
     <>
 
    
-      <button class="btn btn-primary" type="submit">Add</button>
-       <button class="btn btn-danger" type="submit">Close</button>
+      <button className="btn btn-primary" type="submit">Add</button>
+       <button className="btn btn-danger" type="submit">Close</button>
          
 
 
