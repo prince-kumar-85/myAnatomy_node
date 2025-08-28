@@ -5,14 +5,16 @@ const Book = require('./models/Books'); // Import model
 const cors= require('cors')   // for joing backen with frontend....
 
 const app = express();
-const port = 5001
+const port = process.env.PORT || 5001
+
+const mongo=process.env.MONGO_URI
 
 // Middleware
 app.use(express.json());
 app.use(cors())
 
 // Connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/newBooks')
+mongoose.connect(mongo)
     .then(() => console.log("MongoDB connected"))
     .catch(err => console.log("MongoDB Error:", err));
 
