@@ -1,0 +1,51 @@
+/* Background with water photo */
+.signup-bg {
+  background: url("https://www.hdwallpapers.in/download/falling_rain_drops_on_white_umbrella_hd_rain-HD.jpg") 
+    no-repeat center center/cover;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Dark overlay */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 40, 80, 0.6);
+  z-index: 1;
+}
+
+/* Quote styling */
+.quote-section {
+  position: absolute;
+  top: 15%;
+  width: 100%;
+  z-index: 2;
+  padding: 0 20px;
+  animation: fadeInDown 2s ease;
+}
+
+/* Signup card */
+.form-section {
+  position: relative;
+  z-index: 3;
+}
+
+.signup-card {
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  animation: fadeInUp 1.2s ease;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
