@@ -1,15 +1,50 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+const Admin = require("../models/Admin");
 
-module.exports = function (req, res, next) {
-  const token = req.header("Authorization")?.split(" ")[1];
+const protect = (role) => {
+  return async (req, res, next) => {
+    try {
+      let token;
 
-  if (!token) return res.status(401).json({ msg: "No token, authorization denied" });
+      if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith("Bearer ")
+      ) {
+        token = req.headers.authorization.split(" ")[1];
+      }
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (err) {
-    res.status(400).json({ msg: "Invalid token" });
-  }
+      if (!token) {
+        return res.status(401).json({ msg: "No token provided" });
+      }
+
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      if (role && decoded.role !== role) {
+        return res.status(403).json({ msg: "Forbidden: wrong role" });
+      }
+
+      let currentUser = null;
+      if (decoded.role === "user") {
+        currentUser = await User.findById(decoded.id);
+      } else if (decoded.role === "admin") {
+        currentUser = await Admin.findById(decoded.id);
+      }
+
+      if (!currentUser) {
+        return res.status(401).json({ msg: "Not authorized" });
+      }
+
+      // Enforce single-session for both roles (activeSession must match jti)
+      if (!decoded.jti || currentUser.activeSession !== decoded.jti) {
+        return res.status(401).json({ msg: "Invalid or expired session" });
+      }
+
+      req.user = currentUser;
+      next();
+    } catch (err) {
+      return res.status(401).json({ msg: "Not authorized" });
+    }
+  };
 };
+
+module.exports = { protect };

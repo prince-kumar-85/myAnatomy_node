@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import App1 from "./App1";
 
 export default function App() {
   const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+
+  // Handle Search
+  const handleSearch = () => {
+    if (query.trim() !== "") {
+      window.open(
+        `https://www.google.com/search?q=${encodeURIComponent(query)}`,
+        "_blank"
+      );
+    }
+  };
+
+  // Handle Enter key
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   return (
     <Routes>
@@ -13,92 +31,111 @@ export default function App() {
         path="/"
         element={
           <section
-            className="vh-100 d-flex align-items-center"
+            className="vh-100 d-flex flex-column"
             style={{
-              background: "linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)",
-              color: "white",
+              background: "linear-gradient(135deg, #f4f6ff 0%, #eef1ff 100%)",
+              color: "#333",
             }}
           >
-            <div className="container">
-              <div className="row align-items-center">
-                {/* Left Branding */}
+            {/* Navbar */}
+            <nav className="d-flex justify-content-between align-items-center px-5 py-3 bg-white shadow-sm">
+              <h3 className="fw-bold m-0 text-primary">💠 HydroTrim</h3>
+              <ul className="nav d-none d-md-flex">
+                <li className="nav-item mx-3">
+                  <a href="#" className="nav-link text-dark fw-semibold">
+                    Home
+                  </a>
+                </li>
+                <li className="nav-item mx-3">
+                  <a href="#" className="nav-link text-dark fw-semibold">
+                    About Us
+                  </a>
+                </li>
+                <li className="nav-item mx-3">
+                  <a href="#" className="nav-link text-dark fw-semibold">
+                    Features
+                  </a>
+                </li>
+                <li className="nav-item mx-3">
+                  <a href="#" className="nav-link text-dark fw-semibold">
+                    Contact
+                  </a>
+                </li>
+              </ul>
+              <div className="d-flex gap-2">
+                <button
+                  className="btn btn-primary px-4 py-2 rounded-pill fw-bold shadow"
+                  onClick={() => navigate("/signup")}
+                >
+                  Register as User
+                </button>
+                <button
+                  className="btn btn-outline-primary px-4 py-2 rounded-pill fw-bold shadow"
+                  onClick={() => navigate("/admin/signup")}
+                >
+                  Register as Admin
+                </button>
+              </div>
+            </nav>
+
+            {/* Hero Section */}
+            <div className="container flex-grow-1 d-flex align-items-center">
+              <div className="row align-items-center w-100">
+                {/* Left Section */}
                 <motion.div
-                  className="col-lg-6 text-center text-lg-start mb-5 mb-lg-0"
-                  initial={{ opacity: 0, y: 50 }}
+                  className="col-lg-6 mb-5 mb-lg-0"
+                  initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1 }}
                 >
-                  {/* Logo */}
-                  <motion.div
-                    className="mb-4 d-inline-flex align-items-center justify-content-center rounded-circle shadow"
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      background: "rgba(255,255,255,0.2)",
-                      fontSize: "2.5rem",
-                      backdropFilter: "blur(6px)",
-                    }}
-                    animate={{ rotate: [0, 360] }}
-                    transition={{
-                      repeat: Infinity,
-                      duration: 12,
-                      ease: "linear",
-                    }}
-                  >
-                    💠
-                  </motion.div>
-
-                  <h1 className="fw-bold display-2">HydroTrim</h1>
-                  <p className="lead mt-3 fs-4">
-                    Stay hydrated. Stay healthy. <br /> Your smart water
-                    companion.
+                  <span className="badge bg-primary px-3 py-2 mb-3 fs-6">
+                    We Provide
+                  </span>
+                  <h1 className="fw-bold display-5 mb-3">
+                    The Best Hydration & Wellness Services
+                  </h1>
+                  <p className="lead text-muted mb-4">
+                    Stay hydrated. Stay healthy. HydroTrim keeps track of your
+                    water intake, hydration levels, and wellness progress.
                   </p>
 
-                  {/* 🚀 Button */}
-                  <motion.button
-                    className="btn btn-light btn-lg mt-4 px-5 py-3 fw-bold shadow"
-                    whileHover={{
-                      scale: 1.1,
-                      boxShadow: "0px 8px 20px rgba(0,0,0,0.3)",
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => navigate("/login")}
-                  >
-                    🚀 Get Started
-                  </motion.button>
+                  {/* Search Bar / CTA */}
+                  <div className="d-flex bg-white shadow rounded-pill overflow-hidden p-2 w-75">
+                    <input
+                      type="text"
+                      placeholder="What do you want to track?"
+                      className="form-control border-0 shadow-none"
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      onKeyDown={handleKeyPress}
+                    />
+                    <button
+                      className="btn btn-primary rounded-pill px-4 fw-bold"
+                      onClick={handleSearch}
+                    >
+                      Search
+                    </button>
+                  </div>
                 </motion.div>
 
-                {/* Right Stats */}
+                {/* Right Section */}
                 <motion.div
                   className="col-lg-6 d-flex justify-content-center"
-                  initial={{ opacity: 0, x: 100 }}
+                  initial={{ opacity: 0, x: 80 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 1 }}
                 >
-                  <motion.div
-                    className="rounded-4 bg-white text-dark p-5 shadow-lg"
-                    style={{
-                      width: "320px",
-                      height: "380px",
-                      backdropFilter: "blur(10px)",
-                    }}
-                    whileHover={{ scale: 1.05 }}
+                  <div
+                    className="rounded-4 bg-white shadow-lg p-3"
+                    style={{ width: "380px", height: "400px" }}
                   >
-                    <h4 className="fw-bold mb-3">Hydration Stats 💧</h4>
-                    <p className="mb-2">
-                      Today: <strong>2.3 L / 3.0 L</strong>
-                    </p>
-                    <div className="progress mb-3" style={{ height: "10px" }}>
-                      <div
-                        className="progress-bar bg-info"
-                        role="progressbar"
-                        style={{ width: "76%" }}
-                      ></div>
-                    </div>
-                    <p className="small text-muted">
-                      Keep going! Almost at your daily goal 🚀
-                    </p>
-                  </motion.div>
+                    <img
+                      src="https://st.depositphotos.com/2702761/3304/i/950/depositphotos_33044395-stock-photo-doctor-smiling.jpg"
+                      alt="Doctor / Wellness"
+                      className="img-fluid rounded-3"
+                      style={{ objectFit: "cover", height: "100%" }}
+                    />
+                  </div>
                 </motion.div>
               </div>
             </div>

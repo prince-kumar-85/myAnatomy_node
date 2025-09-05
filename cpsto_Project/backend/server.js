@@ -2,26 +2,32 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const authRoutes = require("./routes/auth.routes");
+const morgan = require("morgan");
 
 dotenv.config();
 
-const app = express();
-app.use(express.json());
+const authRoutes = require("./routes/auth.routes");
+const adminAuthRoutes = require("./routes/adminAuth.routes");
 
-// Allow frontend
+const app = express();
+
+// Middleware
+app.use(express.json());
+app.use(morgan("dev"));
 app.use(cors({ origin: process.env.CLIENT_ORIGIN, credentials: true }));
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminAuthRoutes);
 
-// Home Route
+// Health
 app.get("/", (req, res) => {
   res.send("Welcome to Home API");
 });
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
+// DB + Server
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("✅ MongoDB Connected");
     app.listen(process.env.PORT, () =>

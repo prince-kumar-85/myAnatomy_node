@@ -134,12 +134,20 @@ function Login({ setIsAuthenticated }) {
               </form>
 
               <div className="d-flex justify-content-between mt-4">
-                <Link to="/forgot" className="text-info text-decoration-none">
-                  Forgot Password?
-                </Link>
-                <Link to="/signup" className="text-info text-decoration-none">
-                  Create Account
-                </Link>
+  <Link
+    to="/forgot"
+    className="font-monospace text-decoration-none text-white"
+  >
+    Forgot Password?
+  </Link>
+  <Link
+    to="/signup"
+    className="font-monospace text-decoration-none text-white"
+  >
+    Create Account
+  </Link>
+
+
               </div>
             </div>
           </motion.div>

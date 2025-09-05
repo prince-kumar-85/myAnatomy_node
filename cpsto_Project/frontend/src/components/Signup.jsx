@@ -26,60 +26,65 @@ export default function Signup() {
   };
 
   return (
-    <div className="signup-bg d-flex align-items-center justify-content-center vh-100">
+    <div className="signup-bg">
       <div className="overlay"></div>
 
-      {/* Quote Section */}
-      <div className="quote-section text-white text-center">
-        <h1 className="display-5 fw-bold">💧 "Pure water is the world’s first and foremost medicine."</h1>
-        <p className="lead mt-3">– Slovakian Proverb</p>
-      </div>
+      {/* ✅ Wrap both sections inside signup-container */}
+      <div className="signup-container">
+        {/* Quote Section */}
+        <div className="quote-section text-white">
+          <h1 className="display-5 fw-bold">
+            💧 "Pure water is the world’s first and foremost medicine."
+          </h1>
+          <p className="lead mt-3">– Slovakian Proverb</p>
+        </div>
 
-      {/* Signup Form */}
-      <div className="form-section">
-        <div className="card signup-card shadow-lg p-4">
-          <h2 className="text-center mb-4">👋 Create Your Account</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Full Name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Email Address"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <button type="submit" className="btn btn-primary w-100 mb-3">
-              Sign Up
-            </button>
-            <p className="text-center text-muted">
-              Already have an account? <a href="/login">Login</a>
-            </p>
-          </form>
+        {/* Signup Form */}
+        <div className="form-section">
+          <div className="card signup-card shadow-lg p-4">
+            <h2 className="text-center mb-4">👋 Create Your Account</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Full Name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Email Address"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <button type="submit" className="btn btn-primary w-100 mb-3">
+                Sign Up
+              </button>
+              <p className="text-center text-muted">
+                Already have an account? <a href="/login">Login</a>
+              </p>
+            </form>
+          </div>
         </div>
       </div>
     </div>
